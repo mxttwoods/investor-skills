@@ -1,0 +1,88 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "InvestorSkillsResearchMemo",
+  "description": "Machine-readable equivalent of the shared research memo (research-risk-discipline). Facts, estimates, interpretations, and proposals are separated. Implementation choice: field set.",
+  "type": "object",
+  "required": [
+    "research_question", "as_of", "asset", "intended_horizon",
+    "selected_frameworks", "core_thesis", "key_assumptions",
+    "supporting_evidence", "strongest_opposing_case",
+    "risks_and_portfolio_interactions", "invalidation_conditions",
+    "missing_information", "unresolved_disagreements",
+    "recommended_status", "evidence_that_would_change_assessment"
+  ],
+  "properties": {
+    "research_question": {"type": "string"},
+    "as_of": {"type": "string", "description": "ISO date the evidence is current to"},
+    "asset": {"type": "string"},
+    "intended_horizon": {"type": "string"},
+    "mandate": {
+      "type": "object",
+      "properties": {
+        "assets": {"type": "array", "items": {"type": "string"}},
+        "horizon_years": {"type": "array", "items": {"type": "number"}},
+        "constraints": {"type": "array", "items": {"type": "string"}},
+        "execution_policy": {"type": "string"}
+      }
+    },
+    "selected_frameworks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["skill", "why_selected", "applicability_notes"],
+        "properties": {
+          "skill": {"type": "string"},
+          "why_selected": {"type": "string"},
+          "applicability_notes": {"type": "string"}
+        }
+      }
+    },
+    "core_thesis": {"type": "string"},
+    "key_assumptions": {"type": "array", "items": {"type": "string"}},
+    "supporting_evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["claim", "claim_type", "source_ids"],
+        "properties": {
+          "claim": {"type": "string"},
+          "claim_type": {"type": "string", "enum": ["fact", "estimate", "interpretation", "proposal"]},
+          "source_ids": {"type": "array", "items": {"type": "string"}},
+          "as_of": {"type": "string"}
+        }
+      }
+    },
+    "strongest_opposing_case": {"type": "string"},
+    "valuation_or_scenarios": {
+      "type": "object",
+      "properties": {
+        "method": {"type": "string"},
+        "formulas": {"type": "string"},
+        "units": {"type": "string"},
+        "periods": {"type": "string"},
+        "assumptions": {"type": "array", "items": {"type": "string"}},
+        "sensitivities": {"type": "string"}
+      }
+    },
+    "risks_and_portfolio_interactions": {"type": "array", "items": {"type": "string"}},
+    "invalidation_conditions": {"type": "array", "items": {"type": "string"}},
+    "missing_information": {"type": "array", "items": {"type": "string"}},
+    "unresolved_disagreements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["positions", "assumptions_driving_difference", "horizons", "evidence_emphasized", "what_would_resolve"],
+        "properties": {
+          "positions": {"type": "array", "items": {"type": "string"}},
+          "assumptions_driving_difference": {"type": "array", "items": {"type": "string"}},
+          "horizons": {"type": "array", "items": {"type": "string"}},
+          "evidence_emphasized": {"type": "array", "items": {"type": "string"}},
+          "what_would_resolve": {"type": "string"}
+        }
+      }
+    },
+    "recommended_status": {"type": "string", "enum": ["research-further", "watch", "worthy-of-deep-dive", "reject-for-mandate", "insufficient-evidence"]},
+    "recommended_next_action": {"type": "string"},
+    "evidence_that_would_change_assessment": {"type": "array", "items": {"type": "string"}}
+  }
+}
